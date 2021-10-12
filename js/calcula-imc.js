@@ -22,12 +22,11 @@ for (var i = 0; i < pacientes.length; i++) {
 
 
     // conferindo se os dados são verdadeiros
-    var pesoEhValido = true;
-    var alturaEhValido = true;
+    var pesoEhValido = validaPeso(peso);
+    var alturaEhValido = validaAltura(altura);
 
 
-    if (peso <= 0 || peso >= 1000) {
-        console.log("peso inválido!")
+    if (!pesoEhValido) {
         pesoEhValido = false
         tdIMC.textContent = "peso inválido!"
 
@@ -38,7 +37,7 @@ for (var i = 0; i < pacientes.length; i++) {
         // paciente.style.backgroundColor = "#FF8A87"
 
     }
-    if (altura <= 0 || altura > 3) {
+    if (!alturaEhValido) {
         console.log("altura inválida!")
         alturaEhValido = false;
         tdIMC.textContent = "altura inválida!"
@@ -48,40 +47,38 @@ for (var i = 0; i < pacientes.length; i++) {
     }
 
 
-
-
     // mostrando na tela os dados
 
     if (pesoEhValido && alturaEhValido) {
-        var imc = calculaImc(peso,altura)
+        var imc = calculaImc(peso, altura)
 
         tdIMC.textContent = imc
 
         // toFixed para travar as casas decimais
     }
+
+
+    function validaPeso(peso) {
+        if (peso >= 0 && peso < 1000) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function validaAltura(altura) {
+        if (altura >=0 && altura <= 3.0) {
+            return true
+        } else {
+            return false
+        }
+    }
+  
+    function calculaImc(peso, altura) {
+         var imc = 0
+         imc = peso / (altura * altura);
+
+        return imc.toFixed(2)
+        }
+    
 }
-
-
-function calculaImc(peso, altura) {
-    var imc = 0
-    imc = peso / (altura * altura);
-
-    return imc.toFixed(2) 
-}
-
-
-
-
-
-
-// função anonima
-
-
-
-
-// função nomeada 
-// titulo.addEventListener("click", monstraMensagem);
-
-// function monstraMensagem() {
-//     console.log("ainnn bom dia gostosa")
-// }

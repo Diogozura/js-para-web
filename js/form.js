@@ -9,13 +9,39 @@ botaoAdicionar.addEventListener("click", function (event) {
     var paciente = obtemPacienteDoForm(form)
     // cria a tr a td do paciente
     var pacienteTr = montaTr(paciente)
+
+    var erro = validaPaciente(paciente)
+    console.log(erros)
+
+    if (erro.length > 0) { 
+        exibeMensagemDeErro(erros)
+        return 
+    } 
+
     var tabela = document.querySelector("#tabela-pacientes")
 
     tabela.appendChild(pacienteTr)
 
+  
+
     // limpar campos
     form.reset()
+    var mensagensErro = document.querySelector("#mensagens-erro")
+    mensagensErro.innerHTML= ""
 })
+
+function exibeMensagemDeErro(erros) {
+    var ul = document.querySelector("#mensagens-erro")
+
+    ul.innerHTML = ""
+
+
+    erros.forEach(function (erro) {
+        var li = document.createElement("li")
+        li.textContent = erro
+        ul.appendChild(li)
+    })
+}
 
 function obtemPacienteDoForm(form) {
 
@@ -54,4 +80,22 @@ function montaTd(dado, classe) {
     td.classList.add(classe);
 
     return td;  
+}
+
+function validaPaciente(paciente) {
+
+    erros = []
+    if(paciente.nome.length == 0 ) erros.push("Adicione um nome para o Paciente!")
+
+    if (!validaPeso(paciente.peso)) erros.push("Peso inválido")
+    if (paciente.peso == 0) erros.push("Adicione o Peso!")
+    
+    if (!validaAltura(paciente.altura)) erros.push("Altura inválida")
+    if (paciente.altura.length == 0) erros.push("Adicione a Altura!")
+   
+    if (paciente.gordura.length == 0) erros.push("Adicione a gordura!")
+    
+    return erros
+
+    
 }
